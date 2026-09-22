@@ -1,16 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arvanta</title>
-</head>
-<body>
-    <h1>Arvanta</h1>
-    <p>Open-source software and projects.</p>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Support Arvanta's open-source work with a crypto donation." />
+  <title>Support Arvanta — Crypto Donation</title>
 
-    <a href="https://github.com/Arvanta/Melo">
-        Melo on GitHub
-    </a>
+  <!-- QR code generator; the page remains otherwise self-contained. -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #080c16;
+      --bg-soft: #0d1322;
+      --card: rgba(18, 26, 42, 0.78);
+      --border: rgba(150, 170, 210, 0.20);
+      --text: #f5f7fb;
+      --muted: #a9b4c8;
+      --accent-a: #62b6ff;
+      --accent-b: #9b75ff;
+      --success: #71e6b0;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .38);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% -10%, rgba(104, 117, 255, .18), transparent 34rem),
+        radial-gradient(circle at 0% 100%, rgba(66, 77, 180, .16), transparent 30rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(100% - 32px, 980px);
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(150, 170, 210, .12);
+      backdrop-filter: blur(18px);
+      background: rgba(8, 12, 22, .58);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 750;
+      font-size: 1.18rem;
+      letter-spacing: -.02em;
+    }
+
+    .brand-mark {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+      color: white;
+      font-size: 1rem;
+      box-shadow: 0 7px 24px rgba(98, 182, 255, .22);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-donate {
+      border: 1px solid rgba(160, 185, 235, .5);
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: var(--text);
+    }
+
+    main { padding: 82px 0 52px; }
+
+    .hero {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 48px;
+    }
+
+    .heart {
+      width: 46px;
+      height: 46px;
+      margin: 0 auto 22px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(126, 153, 255, .35);
+      border-radius: 50%;
+      color: #8ea9ff;
+      font-size: 1.35rem;
+      box-shadow: 0 0 40px rgba(107, 123, 255, .12);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 7vw, 4.6rem);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.12rem);
+      line-height: 1.75;
+    }
+
+    .thanks {
+      margin-top: 25px;
+      color: #c6d0e1;
+      font-size: .77rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .thanks::before,
+    .thanks::after {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 42px;
+      height: 1px;
+      margin: 0 13px;
+      background: rgba(160, 180, 220, .35);
+    }
+
+    .donations {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(20, 29, 48, .9), rgba(12, 18, 31, .82));
+      box-shadow: var(--shadow);
+    }
+
+    .card:hover {
+      border-color: rgba(145, 169, 230, .34);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 16px;
+    }
+
+    .coin {
+      width: 54px;
+      height: 54px;
+      flex: 0 0 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-weight: 850;
+      font-size: 1.05rem;
+      border: 1px solid rgba(255,255,255,.18);
+      background: #1b2740;
+    }
+
+    .coin.evm {
+      background: linear-gradient(145deg, #627eea, #a66cff);
+    }
+
+    .coin.sol {
+      background: linear-gradient(145deg, #0f1b2c, #16263a);
+      color: #6ef5ca;
+    }
+
+    .coin.trx {
+      background: #e52b45;
+      color: white;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -.02em;
+    }
+
+    .card-subtitle {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .address-row {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      padding: 7px 7px 7px 15px;
+      border: 1px solid rgba(150, 175, 225, .27);
+      background: rgba(8, 13, 24, .42);
+      border-radius: 15px;
+    }
+
+    .address {
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #dce5f5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: .84rem;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .copy {
+      flex: 0 0 auto;
+      padding: 10px 13px;
+      border-radius: 11px;
+      color: #edf3ff;
+      background: rgba(122, 146, 198, .15);
+      border: 1px solid rgba(145, 170, 220, .22);
+      transition: .18s ease;
+    }
+
+    .copy:hover {
+      background: rgba(122, 146, 198, .24);
+      transform: translateY(-1px);
+    }
+
+    .copy.copied {
+      color: var(--success);
+      border-color: rgba(113, 230, 176, .28);
+    }
+
+    .networks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-top: 13px;
+      color: #9caac1;
+      font-size: .78rem;
+    }
+
+    .networks span::before {
+      content: "•";
+      margin-right: 8px;
+      color: #6e87b8;
+    }
+
+    .qr {
+      width: 124px;
+      height: 124px;
+      padding: 9px;
+      display: grid;
+      place-items: center;
+      background: white;
+      border-radius: 15px;
+    }
+
+    .qr img, .qr canvas {
+      display: block;
+      max-width: 106px;
+      max-height: 106px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 0 58px;
+      color: var(--muted);
+    }
+
+    .footer-heart {
+      color: #8da6ff;
+      margin-bottom: 14px;
+      font-size: 1.2rem;
+    }
+
+    footer p {
+      margin: 5px 0;
+      line-height: 1.6;
+    }
+
+    .note {
+      font-size: .78rem;
+      opacity: .72;
+      max-width: 650px;
+      margin: 17px auto 0 !important;
+    }
+
+    @media (max-width: 720px) {
+      nav a:not(.nav-donate) { display: none; }
+
+      main { padding-top: 56px; }
+
+      .card {
+        grid-template-columns: 1fr;
+        padding: 21px;
+      }
+
+      .qr {
+        margin: 3px auto 0;
+      }
+
+      .address-row {
+        align-items: stretch;
+      }
+
+      .copy {
+        padding-inline: 11px;
+      }
+
+      .address {
+        align-self: center;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .container { width: min(100% - 22px, 980px); }
+
+      h1 { font-size: 2.55rem; }
+
+      .hero p { font-size: .96rem; }
+
+      .card-head { align-items: flex-start; }
+
+      .coin {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+      }
+
+      .address-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+
+      .copy { width: 100%; }
+
+      .thanks::before,
+      .thanks::after {
+        width: 25px;
+        margin-inline: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="Arvanta home">
+        <span class="brand-mark">A</span>
+        <span>Arvanta</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a href="https://github.com/Arvanta">GitHub</a>
+        <a href="https://github.com/Arvanta/Melo">Melo</a>
+        <a class="nav-donate" href="#donate">♡ Donate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="donate">
+    <div class="container">
+      <section class="hero">
+        <div class="heart" aria-hidden="true">♡</div>
+        <h1>Support <span class="gradient">My Work</span></h1>
+        <p>
+          If you enjoy my open-source projects and find them useful,
+          you can support their continued development with a crypto donation.
+        </p>
+        <div class="thanks">Thank you</div>
+      </section>
+
+      <section class="donations" aria-label="Crypto donation addresses">
+
+        <article class="card">
+          <div>
+            <div class="card-head">
+              <div class="coin evm" aria-hidden="true">Ξ</div>
+              <div>
+                <h2>Ethereum &amp; BNB</h2>
+                <p class="card-subtitle">Ethereum, Base, Arbitrum and other EVM networks</p>
+              </div>
+            </div>
+
+            <div class="address-row">
+              <div class="address" id="evm-address">
+                0x97938DAE467d4Ac44970954F3712618B1FA44dB5
+              </div>
+              <button class="copy" data-copy="0x97938DAE467d4Ac44970954F3712618B1FA44dB5">
+                ⧉&nbsp; Copy address
+              </button>
+            </div>
+
+            <div class="networks">
+              <span>Ethereum</span>
+              <span>Base</span>
+              <span>Arbitrum</span>
+              <span>BNB Chain</span>
+              <span>Other EVM L2s</span>
+            </div>
+          </div>
+
+          <div class="qr" id="qr-evm" aria-label="QR code for EVM wallet"></div>
+        </article>
+
+        <article class="card">
+          <div>
+            <div class="card-head">
+              <div class="coin sol" aria-hidden="true">S</div>
+              <div>
+                <h2>Solana</h2>
+                <p class="card-subtitle">Fast, low-cost, decentralized</p>
+              </div>
+            </div>
+
+            <div class="address-row">
+              <div class="address">
+                EziDpuJSGvbwtb2tNNhoxsiWGGccECY8bqAL6eaKi1sa
+              </div>
+              <button class="copy" data-copy="EziDpuJSGvbwtb2tNNhoxsiWGGccECY8bqAL6eaKi1sa">
+                ⧉&nbsp; Copy address
+              </button>
+            </div>
+          </div>
+
+          <div class="qr" id="qr-sol" aria-label="QR code for Solana wallet"></div>
+        </article>
+
+        <article class="card">
+          <div>
+            <div class="card-head">
+              <div class="coin trx" aria-hidden="true">T</div>
+              <div>
+                <h2>Tron</h2>
+                <p class="card-subtitle">Fast, secure, decentralized</p>
+              </div>
+            </div>
+
+            <div class="address-row">
+              <div class="address">
+                TG4ZqjVRry3hsyTeK13uaHRdZ4FCvC5pAk
+              </div>
+              <button class="copy" data-copy="TG4ZqjVRry3hsyTeK13uaHRdZ4FCvC5pAk">
+                ⧉&nbsp; Copy address
+              </button>
+            </div>
+          </div>
+
+          <div class="qr" id="qr-trx" aria-label="QR code for Tron wallet"></div>
+        </article>
+
+      </section>
+
+      <footer>
+        <div class="footer-heart">♥</div>
+        <p>Every contribution helps keep these projects alive.</p>
+        <p>Thank you for your support!</p>
+        <p class="note">
+          Please verify the network before sending. The Ethereum/BNB address above is the same EVM address
+          for Ethereum, Base, Arbitrum and BNB Chain.
+        </p>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const wallets = {
+      evm: "0x97938DAE467d4Ac44970954F3712618B1FA44dB5",
+      sol: "EziDpuJSGvbwtb2tNNhoxsiWGGccECY8bqAL6eaKi1sa",
+      trx: "TG4ZqjVRry3hsyTeK13uaHRdZ4FCvC5pAk"
+    };
+
+    function makeQr(id, value) {
+      const el = document.getElementById(id);
+      if (window.QRCode) {
+        new QRCode(el, {
+          text: value,
+          width: 106,
+          height: 106,
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } else {
+        el.textContent = "QR unavailable";
+        el.style.color = "#111";
+        el.style.fontSize = "12px";
+      }
+    }
+
+    makeQr("qr-evm", wallets.evm);
+    makeQr("qr-sol", wallets.sol);
+    makeQr("qr-trx", wallets.trx);
+
+    document.querySelectorAll(".copy").forEach(button => {
+      button.addEventListener("click", async () => {
+        const original = button.innerHTML;
+        const value = button.dataset.copy;
+
+        try {
+          await navigator.clipboard.writeText(value);
+          button.textContent = "✓ Copied";
+          button.classList.add("copied");
+
+          setTimeout(() => {
+            button.innerHTML = original;
+            button.classList.remove("copied");
+          }, 1600);
+        } catch {
+          // Fallback for browsers where Clipboard API is unavailable.
+          const input = document.createElement("textarea");
+          input.value = value;
+          input.style.position = "fixed";
+          input.style.opacity = "0";
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand("copy");
+          input.remove();
+
+          button.textContent = "✓ Copied";
+          button.classList.add("copied");
+
+          setTimeout(() => {
+            button.innerHTML = original;
+            button.classList.remove("copied");
+          }, 1600);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
